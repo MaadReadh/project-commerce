@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    <h2>closed listings</h2>
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row ">
+            {%for item in listing%}
+                <div class="col-4">
+                           <div class="card" style="width: 18rem;">
+                              <a href="{% url 'show_list' item.id %}">
+                               <img src="{{item.imgurl}}" class="w-100 h-100" alt="Card image">
+                                </a>
+                               <div class="card-body">
+                             <h3 class="card-title">{{item.title}}</h3>
+                             <p class="text-muted">{{item.description}}.</p>
+                             <p class="text-muted">${{item.price}}.</p>
+                         </div>
+                           </div>
+                     </div>
+
+        {% endfor %}
+          </div>
+        </div>
+        </div>
+{% endblock %}

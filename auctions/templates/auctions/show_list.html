@@ -1,0 +1,96 @@
+{% extends "auctions/layout.html" %} 
+{% block body %}
+<div class="row">
+  <div class="col-6">
+    <h1>
+      this product is created by
+      <span style="color: mediumblue">{{ list.user }} </span>
+    </h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h4>
+            TITLE : <span class="badge bg-primary">{{ list.title }}</span><br />
+          </h4>
+        </div>
+        <h6>{{ list.description }}</h6>
+      </div>
+      <img src="{{ list.imgurl }}" />
+    </div>
+
+    {% if list.active == True %}
+    <div class="col-5">
+      <form method="post">
+        {% csrf_token %}
+        <h3>the start bid {{ list.price }}</h3>
+        {% if user.is_authenticated %}
+        {{ bid_form }}
+        <button class="btn btn-primary m-1" type="submit">bid on this</button>
+        {% endif %}
+        {% if message %}
+
+        <div  class="alert alert-danger" role="alert">{{ message }}</div>
+         {% endif %}
+      </form>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if list.active == True %}
+  <div class="col-5" style="float: right">
+    <form action="{% url 'watchlist_button' list.id %}" style="display: inline">
+      {% if user.is_authenticated %}
+          {% if check == False %}
+            <button class="btn btn-primary">add to watchlist</button>
+          {% elif check == True%}
+            <button class="btn btn-primary">remove from watchlist</button>
+          {% endif %}
+      {% endif %}
+    </form>
+
+   {% if request.user == list.user %}
+    <form style="display: inline" action="{% url 'close_list' list.id %}">
+      <button type="submit" class="btn btn-danger">Close</button>
+    </form>
+    {% endif %} 
+    {% endif %}
+    {% if list.active == False %}
+      <div class="col-5" style="float: right">
+          {% if winner %}
+                <h5>the winner is {{ winner.user }} in bid {{ winner.bid }}</h5>
+           {% else %} no winner {% endif %}
+       </div>
+    {% endif %}
+      </div>
+    </div>
+
+<br />
+
+{% comment %} <div class="row"> {% endcomment %}
+  {% comment %} <div class="container"> {% endcomment %}
+    {% comment %} <div class="row"> {% endcomment %}
+      {% comment %} <h5>comments:</h5> {% endcomment %}
+      {% for comment in comments %}
+        <ul>
+           <li><h5>by {{ comment.user }}</h5> <p>{{ comment.comments }}</p></li>
+        </ul>  
+      {% endfor %}
+    {% comment %} </div> {% endcomment %}
+    {% if user.is_authenticated %}
+    {% if list.active == True %}
+    {% comment %} <div class="row"> {% endcomment %}
+    {% comment %} <div class="row"> {% endcomment %}
+      <div class="col-5">
+        <form method="post">
+          {% csrf_token %} {{ comment_form }}
+          <button class="btn btn-primary m-1">Comment</button>
+        </form>
+      </div>
+      {% comment %} </div> {% endcomment %}
+    {% comment %} </div> {% endcomment %}
+    {% endif %}
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

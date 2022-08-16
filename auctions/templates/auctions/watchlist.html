@@ -1,0 +1,28 @@
+{% extends "auctions/layout.html" %}
+{% block body %}
+    <h2>watchlist</h2>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row ">
+            {%for item in items%}
+                <div class="col-4">
+                           <div class="card" style="width: 18rem;">
+                              <a href="{% url 'show_list' item.listing.id %}">
+                               <img src="{{item.listing.imgurl}}" class="w-100 h-100" alt="Card image">
+                                </a>
+                               <div class="card-body">
+                             <h3 class="card-title">{{item.listing.title}}</h3>
+                             <p class="text-muted">{{item.listing.description}}.</p>
+                             <p class="text-muted">{{item.listing.date}}.</p>
+                             <p class="text-muted">${{item.listing.price}}.</p>
+                         </div>
+                           </div>
+                     </div>
+        {% endfor %}
+          </div>
+        </div>
+
+        </div>
+
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+<h1>Categories</h1>
+<div class="text-muted">
+<a  class="btn btn-primary" href="{% url 'add-category'%}">Add Category</a>
+</div>
+
+
+<div class="card-body">
+  <div class="table-responsive">
+    <table class="table align-middle">
+
+
+      <thead>
+        <tr>
+
+          <th>Category number</th>
+          <th>Category Name</th>
+
+        </tr>
+      </thead>
+      
+      <tbody>
+{%for item in category_list %}
+<tr>
+<td>{{item.id}}</td>
+<td><a href="{% url 'show-category' item.id  %}">{{item.category}}</a></td>
+
+</tr>
+{% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
+
+ 
